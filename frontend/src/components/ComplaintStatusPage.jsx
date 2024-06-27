@@ -9,7 +9,7 @@ const ComplaintStatusPage = ({ token }) => {
   useEffect(() => {
     const fetchComplaints = async () => {
       try {
-        const response = await axios.get('http://localhost:5000/api/complaints/status', {
+        const response = await axios.get('http://localhost:5000/complaints/get', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
@@ -20,12 +20,13 @@ const ComplaintStatusPage = ({ token }) => {
       }
     };
 
+    
     fetchComplaints();
   }, [token]);
 
   const handleReopen = async (id) => {
     try {
-      await axios.patch(`http://localhost:5000/api/complaints/reopen/${id}`, {}, {
+      await axios.patch(`http://localhost:5000/complaints/reopen/${id}`, {}, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

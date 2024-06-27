@@ -1,6 +1,5 @@
-// backend/controllers/complaintController.js
-import Complaint from "../models/Complaint";
-import Admin from "../models/Admin";
+const Complaint = require("../models/Complaint");
+const Admin = require("../models/Admin");
 
 const createComplaint = async (req, res) => {
   const { title, description, suggestion, category } = req.body;
@@ -54,11 +53,11 @@ const getAdminComplaints = async (req, res) => {
   try {
     const admin = await Admin.findById(adminId);
     if (!admin) {
-      return res.status(403).json({ error: 'Access denied' });
+      return res.status(403).json({ error: "Access denied" });
     }
     const complaints = await Complaint.find({
-      status: { $in: ['open', 'in-review'] },
-      category: admin.category
+      status: { $in: ["open", "in-review"] },
+      category: admin.category,
     });
     res.json(complaints);
   } catch (error) {
@@ -72,17 +71,19 @@ const closeComplaint = async (req, res) => {
   try {
     const admin = await Admin.findById(adminId);
     if (!admin) {
-      return res.status(403).json({ error: 'Access denied' });
+      return res.status(403).json({ error: "Access denied" });
     }
     const complaint = await Complaint.findOne({
       _id: complaintId,
       category: admin.category,
-      status: { $in: ['open', 'in-review'] }
+      status: { $in: ["open", "in-review"] },
     });
     if (!complaint) {
-      return res.status(404).json({ error: 'Complaint not found or already closed' });
+      return res
+        .status(404)
+        .json({ error: "Complaint not found or already closed" });
     }
-    complaint.status = 'closed';
+    complaint.status = "closed";
     await complaint.save();
     res.json(complaint);
   } catch (error) {
@@ -96,17 +97,19 @@ const reviewComplaint = async (req, res) => {
   try {
     const admin = await Admin.findById(adminId);
     if (!admin) {
-      return res.status(403).json({ error: 'Access denied' });
+      return res.status(403).json({ error: "Access denied" });
     }
     const complaint = await Complaint.findOne({
       _id: complaintId,
       category: admin.category,
-      status: { $in: ['open'] }
+      status: { $in: ["open"] },
     });
     if (!complaint) {
-      return res.status(404).json({ error: 'Complaint not found or already closed' });
+      return res
+        .status(404)
+        .json({ error: "Complaint not found or already closed" });
     }
-    complaint.status = 'in-review';
+    complaint.status = "in-review";
     await complaint.save();
     res.json(complaint);
   } catch (error) {
@@ -114,11 +117,11 @@ const reviewComplaint = async (req, res) => {
   }
 };
 
-export default {
+module.exports = {
   createComplaint,
   getUserComplaints,
   reopenComplaint,
   getAdminComplaints,
   closeComplaint,
-  reviewComplaint
+  reviewComplaint,
 };

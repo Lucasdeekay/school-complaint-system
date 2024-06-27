@@ -1,9 +1,10 @@
 // backend/utils/hashPassword.js
-import { genSalt, hash } from 'bcryptjs';
+const bcrypt = require('bcryptjs');
 
 const hashPassword = async (password) => {
-  const salt = await genSalt(10);
-  return await hash(password, salt);
+  const salt = await bcrypt.genSalt(10);
+  return await bcrypt.hash(password, salt);
 };
 
-export default hashPassword;
+module.exports = hashPassword;
+

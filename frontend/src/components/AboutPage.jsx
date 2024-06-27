@@ -1,7 +1,7 @@
-// src/components/HomePage.js
+// src/components/AboutPage.js
 import React from 'react';
 
-const HomePage = () => {
+const AboutPage = ({ token }) => {
   return (
     <div>
       <h1>Learn More About School Complaint System</h1>
@@ -10,4 +10,4 @@ const HomePage = () => {
   );
 };
 
-export default HomePage;
+export default AboutPage;

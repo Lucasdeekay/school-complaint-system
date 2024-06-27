@@ -1,7 +1,7 @@
 // backend/models/Complaint.js
-import mongoose from 'mongoose';
+const { Schema, model } = require('mongoose');
 
-const complaintSchema = new mongoose.Schema({
+const complaintSchema = new Schema({
   title: {
     type: String,
     required: true
@@ -14,7 +14,7 @@ const complaintSchema = new mongoose.Schema({
     type: String
   },
   user: {
-    type: mongoose.Schema.Types.ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Student',
     required: true
   },
@@ -37,6 +37,6 @@ const complaintSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-const Complaint = mongoose.model('Complaint', complaintSchema);
+const Complaint = model('Complaint', complaintSchema);
 
-export default Complaint;
+module.exports = Complaint;

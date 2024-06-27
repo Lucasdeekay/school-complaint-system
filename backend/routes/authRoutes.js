@@ -1,14 +1,14 @@
 // backend/routes/authRoutes.js
-import { Router } from 'express';
-const router = Router();
-import { register, registerAdmin, login, changePassword, forgotPassword, resetPassword } from '../controllers/authController';
-import verifyToken from '../middleware/auth';
+const express = require('express');
+const router = express.Router();
+const authController = require('../controllers/authController');
+const verifyToken = require("../middleware/auth");
 
-router.post('/register', register);
-router.post('/register-admin', registerAdmin);
-router.post('/login', login);
-router.post('/change-password', verifyToken, changePassword);
-router.post('/forgot-password', forgotPassword);
-router.post('/reset-password', resetPassword);
+router.post("/register", authController.register);
+router.post("/register-admin", authController.registerAdmin);
+router.post("/login", authController.login);
+router.post("/change-password", verifyToken, authController.changePassword);
+router.post("/forgot-password", authController.forgotPassword);
+router.post("/reset-password", authController.resetPassword);
 
-export default router;
+module.exports = router;

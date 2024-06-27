@@ -33,7 +33,7 @@ const Navbar = ({ handleLogout }) => {
       style={{ width: 250, backgroundColor: theme.palette.primary.main, height: '100%' }}
     >
       <List>
-        <ListItem Button component={Link} to="/" sx={{ color: 'white', '&:hover': { backgroundColor: theme.palette.primary.dark } }}>
+        <ListItem Button component={Link} to="/home" sx={{ color: 'white', '&:hover': { backgroundColor: theme.palette.primary.dark } }}>
           <ListItemIcon>
             <HomeIcon sx={{ color: 'white', marginLeft: '15px' }} />
           </ListItemIcon>

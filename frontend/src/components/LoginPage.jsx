@@ -16,9 +16,10 @@ const LoginPage = ({ setToken }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/login', form);
+      const response = await axios.post('http://localhost:5000/login', form);
       setToken(response.data.token);
-      navigate('/');
+
+      response.data.userType === 'admin' ? navigate('/admin') : navigate('/home');
     } catch (error) {
       setError('Invalid email or password. Please try again.');
     }

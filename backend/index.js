@@ -1,19 +1,17 @@
-// backend/index.js
-import express, { json } from 'express';
-import { connect } from 'mongoose';
-import cors from 'cors';
-import { port as _port, mongoURI } from './config';
-import authRoutes from './routes/authRoutes';
-import complaintRoutes from './routes/complaintRoutes';
+const express = require('express');
+const mongoose = require('mongoose');
+const cors = require('cors');
+const { port, mongoURI } = require('./config');
+const authRoutes = require('./routes/authRoutes');
+const complaintRoutes = require('./routes/complaintRoutes');
 
 const app = express();
-const port = _port;
 
 app.use(cors());
-app.use(json());
+app.use(express.json());
 
 // MongoDB connection
-connect(mongoURI, {
+mongoose.connect(mongoURI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
@@ -23,9 +21,15 @@ connect(mongoURI, {
 });
 
 // Routes
-app.use('/api', authRoutes);
-app.use('/api/complaints', complaintRoutes);
+app.use('/', authRoutes);
+app.use('/complaints', complaintRoutes);
 
 app.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+app.use((err, req, res, next) => {
+  console.error(err.stack);
+  res.status(500).send('Internal Server Error');
+});
+

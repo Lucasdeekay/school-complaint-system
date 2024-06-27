@@ -16,7 +16,7 @@ const ForgotPasswordPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      const response = await axios.post('http://localhost:5000/api/forgot-password', { email });
+      const response = await axios.post('http://localhost:5000/forgot-password', { email });
       const { userId } = response.data;
       navigate(`/reset-password/${userId}`);
     } catch (error) {

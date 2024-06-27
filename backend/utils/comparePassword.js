@@ -1,8 +1,8 @@
 // backend/utils/comparePassword.js
-import { compare } from 'bcryptjs';
+const bcrypt = require('bcryptjs');
 
 const comparePassword = async (password, hashedPassword) => {
-  return await compare(password, hashedPassword);
+  return await bcrypt.compare(password, hashedPassword);
 };
 
-export default comparePassword;
+module.exports = comparePassword;

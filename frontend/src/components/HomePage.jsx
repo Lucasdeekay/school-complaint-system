@@ -1,7 +1,7 @@
 // src/components/HomePage.js
 import React from 'react';
 
-const HomePage = () => {
+const HomePage = ({ token }) => {
   return (
     <div>
       <h1>Welcome to the School Complaint System</h1>

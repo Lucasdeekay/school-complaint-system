@@ -1,19 +1,21 @@
-// backend/middleware/auth.js
-import { verify } from "jsonwebtoken";
-import { jwtSecret } from "../config";
+const jwt = require('jsonwebtoken');
+const JWT_SECRET = require('../config').jwtSecret;
 
 const verifyToken = (req, res, next) => {
-  const token = req.headers["authorization"];
+  const authHeader = req.headers.authorization;
+  const token = authHeader && authHeader.split(' ')[1];
+  
   if (!token) {
-    return res.status(403).send({ error: "No token provided" });
+    return res.status(401).send({ error: 'Token not found' });
   }
-  verify(token, jwtSecret, (err, decoded) => {
+
+  jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
-      return res.status(500).send({ error: "Failed to authenticate token" });
+      return res.status(403).send({ error: 'Invalid token' });
     }
-    req.userId = decoded.userId;
+    req.userId = user.userId;
     next();
   });
 };
 
-export default verifyToken;
+module.exports = verifyToken;

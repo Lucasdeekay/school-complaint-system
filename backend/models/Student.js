@@ -1,7 +1,7 @@
 // backend/models/Student.js
-import mongoose from 'mongoose';
+const { Schema, model } = require('mongoose');
 
-const studentSchema = new mongoose.Schema({
+const studentSchema = new Schema({
   firstName: {
     type: String,
     required: true
@@ -26,6 +26,6 @@ const studentSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-const Student = mongoose.model('Student', studentSchema);
+const Student = model('Student', studentSchema);
 
-export default Student;
+module.exports = Student;

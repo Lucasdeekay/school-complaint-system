@@ -32,7 +32,7 @@ const RegisterAdminPage = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await axios.post('http://localhost:5000/api/register-admin', form);
+      await axios.post('http://localhost:5000/register-admin', form);
       setMessage('Registration successful!');
       setError('');
       navigate('/login');

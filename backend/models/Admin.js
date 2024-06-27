@@ -1,7 +1,7 @@
 // backend/models/Admin.js
-import mongoose from 'mongoose';
+const { Schema, model } = require('mongoose');
 
-const adminSchema = new mongoose.Schema({
+const adminSchema = new Schema({
   firstName: {
     type: String,
     required: true
@@ -25,6 +25,6 @@ const adminSchema = new mongoose.Schema({
   }
 }, { timestamps: true });
 
-const Admin = mongoose.model('Admin', adminSchema);
+const Admin = model('Admin', adminSchema);
 
-export default Admin;
+module.exports = Admin;

@@ -16,7 +16,7 @@ const ChangePasswordPage = ({ token }) => {
     e.preventDefault();
     try {
       await axios.post(
-        'http://localhost:5000/api/change-password',
+        'http://localhost:5000/change-password',
         form,
         {
           headers: {
