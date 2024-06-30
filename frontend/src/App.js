@@ -8,7 +8,6 @@ import {
   useLocation,
 } from "react-router-dom";
 import HomePage from "./components/HomePage";
-import AboutPage from "./components/AboutPage";
 import ComplaintsPage from "./components/ComplaintsPage";
 import ComplaintStatusPage from "./components/ComplaintStatusPage";
 import AdminDashboard from "./components/AdminDashboard";
@@ -77,9 +76,6 @@ const AppContent = ({ token, handleLogout, handleSetToken }) => {
         {/* Information routes */}
         <Route path="/home" element={
           token ? <HomePage token={token} /> : <Navigate to="/" replace />
-        } />
-        <Route path="/about" element={
-          token ? <AboutPage token={token} /> : <Navigate to="/" replace />
         } />
 
         {/* Authentication routes */}

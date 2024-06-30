@@ -1,21 +1,35 @@
 // src/components/Navbar.js
-import React, { useState } from 'react';
-import { AppBar, Toolbar, Typography, Button, IconButton, Drawer, List, ListItem, ListItemIcon, ListItemText, useMediaQuery } from '@mui/material';
-import MenuIcon from '@mui/icons-material/Menu';
-import HomeIcon from '@mui/icons-material/Home';
-import InfoIcon from '@mui/icons-material/Info';
-import ReportIcon from '@mui/icons-material/Report';
-import StatusIcon from '@mui/icons-material/Assignment';
-import SettingsIcon from '@mui/icons-material/Settings';
-import LogoutIcon from '@mui/icons-material/ExitToApp';
-import { Link, useNavigate } from 'react-router-dom';
-import { useTheme } from '@mui/material/styles';
+import React, { useState } from "react";
+import {
+  List,
+  ListItem,
+  ListItemIcon,
+  ListItemText,
+  Drawer,
+  useMediaQuery,
+  Tooltip,
+  Divider,
+  Box,
+  Typography,
+} from "@mui/material";
+import HomeIcon from "@mui/icons-material/Home";
+import ReportIcon from "@mui/icons-material/Report";
+import StatusIcon from "@mui/icons-material/Assignment";
+import SettingsIcon from "@mui/icons-material/Settings";
+import LogoutIcon from "@mui/icons-material/ExitToApp";
+import { Link, useNavigate } from "react-router-dom";
+import { useTheme } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+import Avatar from "@mui/material/Avatar";
 
 const Navbar = ({ handleLogout }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
-  const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('md'));
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
@@ -23,50 +37,116 @@ const Navbar = ({ handleLogout }) => {
 
   const handleLogoutClick = () => {
     handleLogout();
-    navigate('/login');
+    navigate("/login");
   };
 
   const drawerContent = (
     <div
       onClick={toggleDrawer(false)}
       onKeyDown={toggleDrawer(false)}
-      style={{ width: 250, backgroundColor: theme.palette.primary.main, height: '100%' }}
+      style={{
+        width: 250,
+        backgroundColor: theme.palette.primary.main,
+        height: "100%",
+      }}
     >
+      <Box
+        sx={{
+          display: 'flex',
+          alignItems: 'center',
+          padding: '20px 0',
+          justifyContent: 'center',
+          flexDirection: 'column'
+        }}
+      >
+        <Avatar
+          alt="School Logo"
+          src="/images/logo.png"
+          sx={{
+            width: 60,
+            height: 60,
+            backgroundColor: 'white',
+            border: '2px solid white',
+            mb: 1,
+          }}
+        />
+        <Typography variant="strong" color="white">
+          School Complaint System
+        </Typography>
+      </Box>
+      <Divider sx={{ backgroundColor: 'rgba(255, 255, 255, 0.34)' }} />
       <List>
-        <ListItem Button component={Link} to="/home" sx={{ color: 'white', '&:hover': { backgroundColor: theme.palette.primary.dark } }}>
+        <ListItem
+          Button
+          component={Link}
+          to="/home"
+          sx={{
+            color: "white",
+            "&:hover": { backgroundColor: theme.palette.primary.dark },
+          }}
+        >
           <ListItemIcon>
-            <HomeIcon sx={{ color: 'white', marginLeft: '15px' }} />
+            <HomeIcon sx={{ color: "white", marginLeft: "15px" }} />
           </ListItemIcon>
           <ListItemText primary="Home" />
         </ListItem>
-        <ListItem Button component={Link} to="/about" sx={{ color: 'white', '&:hover': { backgroundColor: theme.palette.primary.dark } }}>
+        <ListItem
+          Button
+          component={Link}
+          to="/complaints"
+          sx={{
+            color: "white",
+            "&:hover": { backgroundColor: theme.palette.primary.dark },
+          }}
+        >
           <ListItemIcon>
-            <InfoIcon sx={{ color: 'white', marginLeft: '15px' }} />
+            <ReportIcon sx={{ color: "white", marginLeft: "15px" }} />
           </ListItemIcon>
-          <ListItemText primary="About" />
+          <ListItemText primary="Submit Complaint" />
         </ListItem>
-        <ListItem Button component={Link} to="/complaints" sx={{ color: 'white', '&:hover': { backgroundColor: theme.palette.primary.dark } }}>
+        <ListItem
+          Button
+          component={Link}
+          to="/status"
+          sx={{
+            color: "white",
+            "&:hover": { backgroundColor: theme.palette.primary.dark },
+          }}
+        >
           <ListItemIcon>
-            <ReportIcon sx={{ color: 'white', marginLeft: '15px' }} />
+            <StatusIcon sx={{ color: "white", marginLeft: "15px" }} />
           </ListItemIcon>
-          <ListItemText primary="Complaints" />
+          <ListItemText primary="Track Complaints" />
         </ListItem>
-        <ListItem Button component={Link} to="/status" sx={{ color: 'white', '&:hover': { backgroundColor: theme.palette.primary.dark } }}>
+        <ListItem
+          Button
+          component={Link}
+          to="/change-password"
+          sx={{
+            color: "white",
+            "&:hover": { backgroundColor: theme.palette.primary.dark },
+          }}
+        >
           <ListItemIcon>
-            <StatusIcon sx={{ color: 'white', marginLeft: '15px' }} />
-          </ListItemIcon>
-          <ListItemText primary="Complaint Status" />
-        </ListItem>
-        <ListItem Button component={Link} to="/change-password" sx={{ color: 'white', '&:hover': { backgroundColor: theme.palette.primary.dark } }}>
-          <ListItemIcon>
-            <SettingsIcon sx={{ color: 'white', marginLeft: '15px' }} />
+            <SettingsIcon sx={{ color: "white", marginLeft: "15px" }} />
           </ListItemIcon>
           <ListItemText primary="Settings" />
         </ListItem>
       </List>
-      <ListItem Button onClick={handleLogoutClick} sx={{ color: 'white', '&:hover': { backgroundColor: theme.palette.primary.dark }, position: 'absolute', bottom: 0, borderTop: '1px solid rgba(255, 255, 255, 0.34)', cursor: 'pointer' }}>
+      <ListItem
+        Button
+        onClick={handleLogoutClick}
+        sx={{
+          color: "white",
+          "&:hover": { backgroundColor: theme.palette.primary.dark },
+          position: "absolute",
+          bottom: 0,
+          borderTop: "1px solid rgba(255, 255, 255, 0.34)",
+          cursor: "pointer",
+        }}
+      >
         <ListItemIcon>
-          <LogoutIcon sx={{ color: 'white', marginLeft: '15px' }} />
+          <LogoutIcon sx={{ color: "white", marginLeft: "15px" }} />
         </ListItemIcon>
         <ListItemText primary="Logout" />
       </ListItem>
@@ -74,40 +154,99 @@ const Navbar = ({ handleLogout }) => {
   );
 
   return (
-    <div>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{ my: 1 }}>
           {isMobile ? (
-            <IconButton color="inherit" edge="start" onClick={toggleDrawer(true)}>
+            <IconButton
+              size="large"
+              edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
+              onClick={toggleDrawer(true)}
+            >
               <MenuIcon />
             </IconButton>
           ) : null}
-          <Typography variant="h5" style={{ flexGrow: 1, padding: '5px' }}>
+          <IconButton sx={{ mr: 2 }}>
+            <Avatar
+              alt="School Logo"
+              src="/images/logo.png"
+              sx={{
+                width: 40,
+                height: 40,
+                backgroundColor: 'white',
+                border: '2px solid white',
+              }}
+            />
+          </IconButton>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+          >
             School Complaint System
           </Typography>
-          {isMobile ? null : (
-            <>
-              <Button color="inherit" component={Link} to="/">Home</Button>
-              <Button color="inherit" component={Link} to="/about">About</Button>
-              <Button color="inherit" component={Link} to="/complaints">Complaints</Button>
-              <Button color="inherit" component={Link} to="/status">Complaint Status</Button>
-              <Button color="inherit" component={Link} to="/change-password">Settings</Button>
-            </>
-          )}
-          <IconButton
-            edge="end"
-            color="inherit"
-            onClick={handleLogoutClick}
-            sx={{ marginLeft: '10px' }}
-          >
-            <LogoutIcon />
-          </IconButton>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Tooltip title="Home" sx={{ mr: 2 }}>
+              <IconButton
+                component={Link}
+                to="/home"
+                size="large"
+                color="inherit"
+              >
+                <HomeIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Submit Complaint" sx={{ mr: 2 }}>
+              <IconButton
+                component={Link}
+                to="/complaints"
+                size="large"
+                color="inherit"
+              >
+                <ReportIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Track Complaints" sx={{ mr: 2 }}>
+              <IconButton
+                component={Link}
+                to="/status"
+                size="large"
+                color="inherit"
+              >
+                <StatusIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Change Password" sx={{ mr: 2 }}>
+              <IconButton
+                component={Link}
+                to="/change-password"
+                size="large"
+                color="inherit"
+              >
+                <SettingsIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Logout" sx={{ mr: 2 }}>
+              <IconButton
+                onClick={handleLogoutClick}
+                size="large"
+                color="inherit"
+              >
+                <LogoutIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         {drawerContent}
       </Drawer>
-    </div>
+    </Box>
   );
 };
 

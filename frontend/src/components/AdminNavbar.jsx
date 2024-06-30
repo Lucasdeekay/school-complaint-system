@@ -1,30 +1,34 @@
 // src/components/Navbar.js
 import React, { useState } from "react";
 import {
-  AppBar,
-  Toolbar,
-  Typography,
-  Button,
-  IconButton,
-  Drawer,
   List,
   ListItem,
   ListItemIcon,
   ListItemText,
+  Drawer,
   useMediaQuery,
+  Tooltip,
+  Divider,
 } from "@mui/material";
-import MenuIcon from "@mui/icons-material/Menu";
+import HomeIcon from "@mui/icons-material/Home";
 import StatusIcon from "@mui/icons-material/Assignment";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/ExitToApp";
 import { Link, useNavigate } from "react-router-dom";
 import { useTheme } from "@mui/material/styles";
+import AppBar from "@mui/material/AppBar";
+import Box from "@mui/material/Box";
+import Toolbar from "@mui/material/Toolbar";
+import IconButton from "@mui/material/IconButton";
+import Typography from "@mui/material/Typography";
+import MenuIcon from "@mui/icons-material/Menu";
+import Avatar from "@mui/material/Avatar";
 
-const AdminNavbar = ({ handleLogout }) => {
+const Navbar = ({ handleLogout }) => {
   const [drawerOpen, setDrawerOpen] = useState(false);
+  const navigate = useNavigate();
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
-  const navigate = useNavigate();
 
   const toggleDrawer = (open) => () => {
     setDrawerOpen(open);
@@ -45,7 +49,41 @@ const AdminNavbar = ({ handleLogout }) => {
         height: "100%",
       }}
     >
+      <Box
+        sx={{
+          display: 'flex',
+          justifyContent: 'center',
+          alignItems: 'center',
+          padding: '20px 0',
+        }}
+      >
+        <Avatar
+          alt="School Logo"
+          src="/images/logo.png"
+          sx={{
+            width: 60,
+            height: 60,
+            backgroundColor: 'white',
+            border: '2px solid white',
+          }}
+        />
+      </Box>
+      <Divider sx={{ backgroundColor: 'rgba(255, 255, 255, 0.34)' }} />
       <List>
+        <ListItem
+          Button
+          component={Link}
+          to="/home"
+          sx={{
+            color: "white",
+            "&:hover": { backgroundColor: theme.palette.primary.dark },
+          }}
+        >
+          <ListItemIcon>
+            <HomeIcon sx={{ color: "white", marginLeft: "15px" }} />
+          </ListItemIcon>
+          <ListItemText primary="Home" />
+        </ListItem>
         <ListItem
           Button
           component={Link}
@@ -58,12 +96,12 @@ const AdminNavbar = ({ handleLogout }) => {
           <ListItemIcon>
             <StatusIcon sx={{ color: "white", marginLeft: "15px" }} />
           </ListItemIcon>
-          <ListItemText primary="Dashboard" />
+          <ListItemText primary="Track Complaints" />
         </ListItem>
         <ListItem
           Button
           component={Link}
-          to="/change-password"
+          to="/change-admin-password"
           sx={{
             color: "white",
             "&:hover": { backgroundColor: theme.palette.primary.dark },
@@ -96,46 +134,90 @@ const AdminNavbar = ({ handleLogout }) => {
   );
 
   return (
-    <div>
+    <Box sx={{ flexGrow: 1 }}>
       <AppBar position="static">
-        <Toolbar>
+        <Toolbar sx={{ my: 1 }}>
           {isMobile ? (
             <IconButton
-              color="inherit"
+              size="large"
               edge="start"
+              color="inherit"
+              aria-label="open drawer"
+              sx={{ mr: 2 }}
               onClick={toggleDrawer(true)}
             >
               <MenuIcon />
             </IconButton>
           ) : null}
-          <Typography variant="h5" style={{ flexGrow: 1, padding: "5px" }}>
+          <IconButton sx={{ mr: 2 }}>
+            <Avatar
+              alt="School Logo"
+              src="/images/logo.png"
+              sx={{
+                width: 40,
+                height: 40,
+                backgroundColor: 'white',
+                border: '2px solid white',
+              }}
+            />
+          </IconButton>
+          <Typography
+            variant="h6"
+            noWrap
+            component="div"
+          >
             School Complaint System
           </Typography>
-          {isMobile ? null : (
-            <>
-              <Button color="inherit" component={Link} to="/admin">
-                Dashboard
-              </Button>
-              <Button color="inherit" component={Link} to="/change-password">
-                Settings
-              </Button>
-            </>
-          )}
-          <IconButton
-            edge="end"
-            color="inherit"
-            onClick={handleLogoutClick}
-            sx={{ marginLeft: "50px" }}
-          >
-            <LogoutIcon />
-          </IconButton>
+          <Box sx={{ flexGrow: 1 }} />
+          <Box sx={{ display: { xs: "none", md: "flex" } }}>
+            <Tooltip title="Home" sx={{ mr: 2 }}>
+              <IconButton
+                component={Link}
+                to="/home"
+                size="large"
+                color="inherit"
+              >
+                <HomeIcon />
+              </IconButton>
+            </Tooltip>
+
+            <Tooltip title="Track Complaints" sx={{ mr: 2 }}>
+              <IconButton
+                component={Link}
+                to="/admin"
+                size="large"
+                color="inherit"
+              >
+                <StatusIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Change Password" sx={{ mr: 2 }}>
+              <IconButton
+                component={Link}
+                to="/change-admin-password"
+                size="large"
+                color="inherit"
+              >
+                <SettingsIcon />
+              </IconButton>
+            </Tooltip>
+            <Tooltip title="Logout" sx={{ mr: 2 }}>
+              <IconButton
+                onClick={handleLogoutClick}
+                size="large"
+                color="inherit"
+              >
+                <LogoutIcon />
+              </IconButton>
+            </Tooltip>
+          </Box>
         </Toolbar>
       </AppBar>
       <Drawer anchor="left" open={drawerOpen} onClose={toggleDrawer(false)}>
         {drawerContent}
       </Drawer>
-    </div>
+    </Box>
   );
 };
 
-export default AdminNavbar;
+export default Navbar;

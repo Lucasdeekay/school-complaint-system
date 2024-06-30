@@ -1,6 +1,6 @@
 // src/components/RegisterPage.js
 import React, { useState } from 'react';
-import { TextField, Button, Container, Typography } from '@mui/material';
+import { TextField, Button, Container, Typography, Box, Link, Snackbar, Alert } from '@mui/material';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +14,7 @@ const RegisterPage = () => {
   });
   const [message, setMessage] = useState('');
   const [error, setError] = useState('');
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleChange = (e) => {
@@ -25,65 +26,130 @@ const RegisterPage = () => {
     try {
       await axios.post('http://localhost:5000/register', form);
       setError('');
+      setMessage('Registration successful!');
+      setOpen(true);
       navigate('/login');
     } catch (error) {
       setError('Registration failed. User may already exist.');
       setMessage('');
+      setOpen(true);
     }
   };
 
+  const handleClose = () => {
+    setOpen(false);
+  };
+
   return (
-    <Container>
-      <h1>Register</h1>
-      <form onSubmit={handleSubmit}>
-        <TextField
-          name="firstName"
-          label="First Name"
-          value={form.firstName}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          name="lastName"
-          label="Last Name"
-          value={form.lastName}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          name="matricNumber"
-          label="Matric Number"
-          value={form.matricNumber}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          name="email"
-          label="Email"
-          value={form.email}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <TextField
-          name="password"
-          label="Password"
-          type="password"
-          value={form.password}
-          onChange={handleChange}
-          fullWidth
-          margin="normal"
-        />
-        <Button type="submit" variant="contained" color="primary">
+    <Box
+      sx={{
+        backgroundImage: 'url(https://images.pexels.com/photos/3184163/pexels-photo-3184163.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1)',
+        backgroundSize: 'cover',
+        backgroundPosition: 'center',
+        height: '100vh',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      <Container
+        sx={{
+          backgroundColor: 'rgba(255, 255, 255, 0.8)', // semi-transparent background
+          padding: '20px',
+          borderRadius: '8px',
+          width: {
+            xs: '80%', // small screen
+            md: '50%', // medium to large screen
+          },
+        }}
+      >
+        <Typography variant="h3" component="h1" align="center" gutterBottom sx={{ fontWeight: 'bold' }}>
           Register
-        </Button>
-      </form>
-      {message && <Typography color="success" style={{ marginTop: '20px' }}>{message}</Typography>}
-      {error && <Typography color="error" style={{ marginTop: '20px' }}>{error}</Typography>}
-    </Container>
+        </Typography>
+        <form onSubmit={handleSubmit}>
+          <TextField
+            name="firstName"
+            label="First Name"
+            value={form.firstName}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            name="lastName"
+            label="Last Name"
+            value={form.lastName}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            name="matricNumber"
+            label="Matric Number"
+            value={form.matricNumber}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            name="email"
+            label="Email"
+            value={form.email}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+          />
+          <TextField
+            name="password"
+            label="Password"
+            type="password"
+            value={form.password}
+            onChange={handleChange}
+            fullWidth
+            margin="normal"
+          />
+          <Button
+            type="submit"
+            variant="contained"
+            color="primary"
+            fullWidth
+            sx={{ marginTop: '16px' }}
+          >
+            Register
+          </Button>
+        </form>
+        <Typography
+          variant="body2"
+          align="center"
+          sx={{ marginTop: '16px' }}
+        >
+          Already have an account?{' '}
+          <Link href="/login" variant="body2">
+            Login here
+          </Link>
+        </Typography>
+        <Typography
+          variant="body2"
+          align="center"
+          sx={{ marginTop: '16px' }}
+        >
+          Are you an admin manager?{' '}
+          <Link href="/register-admin" variant="body2">
+            Register Admin
+          </Link>
+        </Typography>
+      </Container>
+      <Snackbar
+        open={open}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: 'top', horizontal: 'center' }}
+      >
+        <Alert onClose={handleClose} severity={message ? 'success' : 'error'} sx={{ width: '100%' }}>
+          {message || error}
+        </Alert>
+      </Snackbar>
+    </Box>
   );
 };
 
